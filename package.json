@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@sanity/client": "^1.149.13",
     "bootstrap": "^4.5.0",
     "next": "9.4.4",
     "react": "16.13.1",
