@@ -9,6 +9,7 @@ import CardListItem from 'components/CardListItem';
 import { getAllBlogs } from 'lib/api';
 
 export default function Home({blogs}) {
+  debugger
   return (
     <PageLayout>
       <AuthorIntro />
