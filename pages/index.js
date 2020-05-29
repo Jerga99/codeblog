@@ -1,4 +1,6 @@
 
+import { useEffect } from 'react';
+
 import { Row, Col } from 'react-bootstrap';
 import PageLayout from 'components/PageLayout';
 import AuthorIntro from 'components/AuthorIntro';
@@ -7,11 +9,18 @@ import CardListItem from 'components/CardListItem';
 
 import { getAllBlogs } from 'lib/api';
 
-export default function Home({blogs}) {
+export default function Home({blogs, randomNumber}) {
+  console.log('Hello World');
+
+  useEffect(() => {
+    console.log(blogs);
+  })
+
   return (
     <PageLayout>
       <AuthorIntro />
       <hr/>
+      <h1>{randomNumber}</h1>
       <Row className="mb-5">
         {/* <Col md="10">
           <CardListItem />
@@ -34,11 +43,33 @@ export default function Home({blogs}) {
 // Provides props to your page
 // It will create static page
 export async function getStaticProps() {
-  console.log('Calling getStaticProps');
+  const randomNumber = Math.random();
   const blogs = await getAllBlogs();
   return {
     props: {
-      blogs
+      blogs,
+      randomNumber
     }
   }
 }
+
+// export async function getServerSideProps() {
+//   const randomNumber = Math.random();
+//   const blogs = await getAllBlogs();
+//   return {
+//     props: {
+//       blogs,
+//       randomNumber
+//     }
+//   }
+// }
+
+// Static Page
+// Faster, can be cached using CDN
+// Created at build time
+// When we making the request we are always receiving the same html document
+
+// Dynamic Page
+// Created at request time (we can fetch data on server)
+// Little bit slower, the time depends on data you are fetching
+
