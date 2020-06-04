@@ -11,12 +11,9 @@ import { getAllBlogs } from 'lib/api';
 
 export default function Home({blogs}) {
   const [filter, setFilter] = useState({
-    view: { list: 0 }
+    view: { list: 0 },
+    date: { asc: 0 }
   });
-
-  // loadMore: to load more data
-  // isLoadingMore: is true whenever we are making request to fetch data
-  // isReachingEnd: is true when we loaded all of the data, data is empty (empty array)
 
   const {
     pages,
