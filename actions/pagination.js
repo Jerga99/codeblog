@@ -12,7 +12,7 @@ export const useGetBlogsPages = ({blogs, filter}) => {
     'index-page',
     ({offset, withSWR}) => {
       let initialData = !offset && blogs;
-      const { data: paginatedBlogs } =  withSWR(useGetBlogs({offset}, initialData));
+      const { data: paginatedBlogs } =  withSWR(useGetBlogs({offset, filter}, initialData));
       if (!paginatedBlogs) { return 'Loading...'}
 
       return paginatedBlogs
