@@ -1,4 +1,5 @@
 
+import { useEffect } from 'react';
 
 import { useSWRPages } from 'swr';
 import { useGetBlogs } from 'actions';
@@ -8,10 +9,19 @@ import CardListItem from 'components/CardListItem';
 
 export const useGetBlogsPages = ({blogs, filter}) => {
 
+  useEffect(() => {
+    window.__pagination__init = true;
+  }, [])
+
   return useSWRPages(
     'index-page',
     ({offset, withSWR}) => {
       let initialData = !offset && blogs;
+
+      if (typeof window !== 'undefined' && window.__pagination__init) {
+        initialData = null;
+      }
+
       const { data: paginatedBlogs } =  withSWR(useGetBlogs({offset, filter}, initialData));
       if (!paginatedBlogs) { return 'Loading...'}
 
