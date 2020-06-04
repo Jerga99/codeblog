@@ -7,6 +7,7 @@ import { Col } from 'react-bootstrap';
 import CardItem from 'components/CardItem';
 import CardItemBlank from 'components/CardItemBlank';
 import CardListItem from 'components/CardListItem';
+import CardListItemBlank from 'components/CardListItemBlank';
 
 export const useGetBlogsPages = ({blogs, filter}) => {
 
@@ -29,9 +30,14 @@ export const useGetBlogsPages = ({blogs, filter}) => {
         return Array(3)
           .fill(0)
           .map((_, i) =>
-            <Col key={i} md="4">
-              <CardItemBlank />
-            </Col>
+            filter.view.list ?
+              <Col key={i} md="9">
+                <CardListItemBlank />
+              </Col>
+              :
+              <Col key={`${i}-item`} md="4">
+                <CardItemBlank />
+              </Col>
           )
       }
 
@@ -71,7 +77,7 @@ export const useGetBlogsPages = ({blogs, filter}) => {
     // index: number of current page
     (SWR, index) => {
       if (SWR.data && SWR.data.length === 0) { return null; }
-      return (index + 1) * 3;
+      return (index + 1) * 6;
     },
     [filter]
   )
