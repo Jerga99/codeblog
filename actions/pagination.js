@@ -11,8 +11,7 @@ export const useGetBlogsPages = ({blogs: initialData, filter}) => {
   return useSWRPages(
     'index-page',
     ({offset, withSWR}) => {
-      debugger
-      const { data: blogs } =  withSWR(useGetBlogs(initialData));
+      const { data: blogs } =  withSWR(useGetBlogs({offset}));
       if (!blogs) { return 'Loading...'}
 
       return blogs
@@ -50,8 +49,8 @@ export const useGetBlogsPages = ({blogs: initialData, filter}) => {
     // SWR: data you will get from 'withSWR' function
     // index: number of current page
     (SWR, index) => {
-      // TODO: Compute offset here!
-      return 0;
+      if (SWR.data && SWR.data.length === 0) { return null; }
+      return (index + 1) * 3;
     },
     [filter]
   )
