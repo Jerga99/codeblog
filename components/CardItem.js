@@ -6,7 +6,7 @@ import { urlFor } from 'lib/api';
 const CardItem = ({title, subtitle, image, date, author, link, mode = 'normal'}) => {
   return (
     <Card className={`fj-card ${mode}`}>
-      <div className="card-body-wrapper">
+      <div className={`card-body-wrapper ${!image ? 'no-image' : ''}`}>
         <Card.Header
           className="d-flex flex-row">
           <img
@@ -34,15 +34,16 @@ const CardItem = ({title, subtitle, image, date, author, link, mode = 'normal'})
           { mode === 'placeholder' ?
             <div className="image-placeholder" />
             :
-            <Card.Img
-              src={
-                urlFor(image)
-                  .height(300)
-                  .crop('center')
-                  .fit('clip')
-                  .url()}
-              alt="Card image cap"
-            />
+            image &&
+              <Card.Img
+                src={
+                  urlFor(image)
+                    .height(300)
+                    .crop('center')
+                    .fit('clip')
+                    .url()}
+                alt="Card image cap"
+              />
           }
         </div>
         <Card.Body>
