@@ -1,0 +1,29 @@
+.dark {
+  .card.fj-card {
+    background-color: #232129;
+    transition: color 0s ease-out 0s, background 0.2s ease-out 0s;
+    .card-body-wrapper {
+      background-color: #232129;
+      transition: color 0s ease-out 0s, background 0.2s ease-out 0s;
+    }
+
+    .card-button {
+      background-color: #9b5f5f;
+    }
+  }
+
+  .fj-navbar.fj-nav-base {
+    width: 100%;
+    padding: 20px 0px;
+
+    .fj-navbar {
+      &-brand {
+        color: #ffffff;
+      }
+
+      &-link {
+        color: #ffffff;
+      }
+    }
+  }
+}
