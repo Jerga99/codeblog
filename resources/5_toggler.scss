@@ -1,0 +1,25 @@
+.day-night-toggle.react-toggle {
+  &.react-toggle--checked:hover {
+    &:not(.react-toggle--disabled) .react-toggle-track {
+      background-color: black;
+    }
+  }
+
+  .react-toggle-track {
+    background-color: black;
+    &:hover {
+      background-color: black;
+    }
+
+    &-x, &-check {
+      right: 8px;
+      width: 15px;
+      height: 15px;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
