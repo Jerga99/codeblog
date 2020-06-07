@@ -14,7 +14,7 @@ export default async function enablePreview(req, res) {
   }
   // setPreviewData will set cookies into you browsert
   // __prerender_bypass __next_preview_data
-  res.setPreviewData({message: 'Hello World'});
+  res.setPreviewData({});
   res.writeHead(307, { Location: `/blogs/${blog.slug}`})
   res.end();
 }
