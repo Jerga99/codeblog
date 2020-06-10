@@ -9,7 +9,7 @@ export default function PageLayout({children, className}) {
   return (
     <div className={theme.type}>
       <Head>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+        {/* <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" /> */}
       </Head>
       <Container>
         <Navbar

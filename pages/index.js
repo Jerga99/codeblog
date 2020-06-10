@@ -7,33 +7,19 @@ import AuthorIntro from 'components/AuthorIntro';
 import FilteringMenu from 'components/FilteringMenu';
 import PreviewAlert from 'components/PreviewAlert';
 
-import { useGetBlogsPages } from 'actions/pagination';
+import { useGetBlogsPages, renderBlogs } from 'actions/pagination';
 import { getPaginatedBlogs } from 'lib/api';
 
-export default function Home({blogs, preview}) {
-  const [filter, setFilter] = useState({
-    view: { list: 0 },
-    date: { asc: 0 }
-  });
-
+const Pagination = ({filter, initialData}) => {
   const {
     pages,
     isLoadingMore,
     isReachingEnd,
     loadMore
-  } = useGetBlogsPages({blogs, filter});
+  } = useGetBlogsPages({filter, initialData});
 
   return (
-    <PageLayout>
-      { preview && <PreviewAlert /> }
-      <AuthorIntro />
-      <FilteringMenu
-        filter={filter}
-        onChange={(option, value) =>
-          setFilter({...filter, [option]: value})
-        }
-      />
-      <hr/>
+    <>
       <Row className="mb-5">
         {pages}
       </Row>
@@ -46,6 +32,43 @@ export default function Home({blogs, preview}) {
           {isLoadingMore ? '...' : isReachingEnd ? 'No more blogs' : 'More Blogs'}
         </Button>
       </div>
+    </>
+  )
+}
+
+export default function Home({blogs, preview}) {
+  const [filter, setFilter] = useState({
+    view: { list: 0 },
+    date: { asc: 0 }
+  });
+
+  return (
+    <PageLayout>
+      { preview && <PreviewAlert /> }
+      <AuthorIntro />
+      <FilteringMenu
+        filter={filter}
+        onChange={(option, value) =>
+          setFilter({...filter, [option]: value})
+        }
+      />
+      <hr/>
+      { typeof window === 'undefined' ?
+        <>
+          <Row className="mb-5">
+            {renderBlogs(blogs, filter)}
+          </Row>
+          <div style={{textAlign: 'center'}}>
+            <Button
+              disabled={true}
+              onClick={() => {}}
+              size="lg"
+              variant="outline-secondary">...</Button>
+          </div>
+        </>
+        :
+        <Pagination filter={filter} initialData={blogs}/>
+      }
     </PageLayout>
   )
 }
