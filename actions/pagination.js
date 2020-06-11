@@ -1,5 +1,4 @@
 
-import { useEffect } from 'react';
 
 import { useSWRPages } from 'swr';
 import { useGetBlogs } from 'actions';
@@ -10,40 +9,40 @@ import CardListItem from 'components/CardListItem';
 import CardListItemBlank from 'components/CardListItemBlank';
 import moment from 'moment';
 
-export const renderBlogs = (blogs, filter) => {
+export const BlogList = ({blogs, filter}) => {
   return blogs
-    .map(blog =>
-    filter.view.list ?
-      <Col key={`${blog.slug}-list`} md="9">
-        <CardListItem
-          author={blog.author}
-          title={blog.title}
-          subtitle={blog.subtitle}
-          date={moment(blog.date).format('LLL')}
-          link={{
-            href: '/blogs/[slug]',
-            as: `/blogs/${blog.slug}`
-          }}
-        />
-      </Col>
-      :
-      <Col key={blog.slug} lg="4" md="6">
-        <CardItem
-          author={blog.author}
-          title={blog.title}
-          subtitle={blog.subtitle}
-          date={moment(blog.date).format('LLL')}
-          image={blog.coverImage}
-          link={{
-            href: '/blogs/[slug]',
-            as: `/blogs/${blog.slug}`
-          }}
-        />
-      </Col>
-    )
+  .map(blog =>
+  filter.view.list ?
+    <Col key={`${blog.slug}-list`} md="9">
+      <CardListItem
+        author={blog.author}
+        title={blog.title}
+        subtitle={blog.subtitle}
+        date={moment(blog.date).format('LL')}
+        link={{
+          href: '/blogs/[slug]',
+          as: `/blogs/${blog.slug}`
+        }}
+      />
+    </Col>
+    :
+    <Col key={blog.slug} lg="4" md="6">
+      <CardItem
+        author={blog.author}
+        title={blog.title}
+        subtitle={blog.subtitle}
+        date={moment(blog.date).format('LL')}
+        image={blog.coverImage}
+        link={{
+          href: '/blogs/[slug]',
+          as: `/blogs/${blog.slug}`
+        }}
+      />
+    </Col>
+  )
 }
 
-export const useGetBlogsPages = ({filter, initialData}) => {
+export const useGetBlogsPages = ({filter, blogs}) => {
 
   return useSWRPages(
     'index-page',
@@ -51,7 +50,7 @@ export const useGetBlogsPages = ({filter, initialData}) => {
       const { data: paginatedBlogs, error } =  withSWR(useGetBlogs({offset, filter}));
 
       if (!offset && !paginatedBlogs && !error) {
-        return renderBlogs(initialData, filter);
+        return <BlogList blogs={blogs} filter={filter}/>
       }
 
       if (!paginatedBlogs) {
@@ -69,7 +68,7 @@ export const useGetBlogsPages = ({filter, initialData}) => {
           )
       }
 
-      return renderBlogs(paginatedBlogs, filter);
+      return <BlogList blogs={paginatedBlogs} filter={filter} />
     },
     // here you will compute offset that will get passed into previous callback function with 'withSWR'
     // SWR: data you will get from 'withSWR' function

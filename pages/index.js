@@ -7,40 +7,21 @@ import AuthorIntro from 'components/AuthorIntro';
 import FilteringMenu from 'components/FilteringMenu';
 import PreviewAlert from 'components/PreviewAlert';
 
-import { useGetBlogsPages, renderBlogs } from 'actions/pagination';
+import { useGetBlogsPages } from 'actions/pagination';
 import { getPaginatedBlogs } from 'lib/api';
-
-const Pagination = ({filter, initialData}) => {
-  const {
-    pages,
-    isLoadingMore,
-    isReachingEnd,
-    loadMore
-  } = useGetBlogsPages({filter, initialData});
-
-  return (
-    <>
-      <Row className="mb-5">
-        {pages}
-      </Row>
-      <div style={{textAlign: 'center'}}>
-        <Button
-          onClick={loadMore}
-          disabled={isReachingEnd || isLoadingMore}
-          size="lg"
-          variant="outline-secondary">
-          {isLoadingMore ? '...' : isReachingEnd ? 'No more blogs' : 'More Blogs'}
-        </Button>
-      </div>
-    </>
-  )
-}
 
 export default function Home({blogs, preview}) {
   const [filter, setFilter] = useState({
     view: { list: 0 },
     date: { asc: 0 }
   });
+
+  const {
+    pages,
+    isLoadingMore,
+    isReachingEnd,
+    loadMore
+  } = useGetBlogsPages({filter, blogs});
 
   return (
     <PageLayout>
@@ -53,22 +34,18 @@ export default function Home({blogs, preview}) {
         }
       />
       <hr/>
-      { typeof window === 'undefined' ?
-        <>
-          <Row className="mb-5">
-            {renderBlogs(blogs, filter)}
-          </Row>
-          <div style={{textAlign: 'center'}}>
-            <Button
-              disabled={true}
-              onClick={() => {}}
-              size="lg"
-              variant="outline-secondary">...</Button>
-          </div>
-        </>
-        :
-        <Pagination filter={filter} initialData={blogs}/>
-      }
+      <Row className="mb-5">
+        {pages}
+      </Row>
+      <div style={{textAlign: 'center'}}>
+        <Button
+          onClick={loadMore}
+          disabled={isReachingEnd || isLoadingMore}
+          size="lg"
+          variant="outline-secondary">
+          {isLoadingMore ? '...' : isReachingEnd ? 'No more blogs' : 'More Blogs'}
+        </Button>
+      </div>
     </PageLayout>
   )
 }
