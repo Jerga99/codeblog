@@ -55,7 +55,7 @@ const CardItem = ({title, subtitle, image, date, author, link, mode = 'normal'})
               <>
                 <Card.Title className="card-main-title">{
                   title.length > 40 ?
-                    subtitle.substr(0, 40) + '...' : title}</Card.Title>
+                    title.substr(0, 40) + '...' : title}</Card.Title>
                 <Card.Text>{
                   subtitle.length > 40 ?
                     subtitle.substr(0, 40) + '...' : subtitle}</Card.Text>
