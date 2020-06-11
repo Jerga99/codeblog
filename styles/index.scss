@@ -241,11 +241,13 @@ html, body {
   &-left {
     float: left;
     margin-right: 30px;
+    max-width: 50%;
   }
 
   &-right {
     float: right;
     margin-left: 30px;
+    max-width: 50%;
   }
 
   > img {
