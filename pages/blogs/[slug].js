@@ -17,12 +17,15 @@ const BlogDetail = ({blog: initialBlog, preview}) => {
   const [blog, setBlog] = useState(initialBlog);
 
   useEffect(() => {
+    let sub;
     if (preview) {
-      onBlogUpdate(blog.slug)
+      sub = onBlogUpdate(blog.slug)
         .subscribe(update => {
           setBlog(update.result)
         })
     }
+
+    return () => sub && sub.unsubscribe()
   }, [])
 
   if (!router.isFallback && !blog?.slug) {
