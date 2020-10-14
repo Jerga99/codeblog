@@ -28,9 +28,9 @@ const BlogDetail = ({blog: initialBlog, preview}) => {
     return () => sub && sub.unsubscribe()
   }, [])
 
-  if (!router.isFallback && !blog?.slug) {
-    return <ErrorPage statusCode="404"/>
-  }
+  // if (!router.isFallback && !blog?.slug) {
+  //   return <ErrorPage statusCode="404"/>
+  // }
 
   if (router.isFallback) {
     return (

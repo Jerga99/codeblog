@@ -10,6 +10,45 @@ import PreviewAlert from 'components/PreviewAlert';
 import { useGetBlogsPages } from 'actions/pagination';
 import { getPaginatedBlogs } from 'lib/api';
 
+import { Col } from 'react-bootstrap';
+import CardItem from 'components/CardItem';
+import CardItemBlank from 'components/CardItemBlank';
+import CardListItem from 'components/CardListItem';
+import CardListItemBlank from 'components/CardListItemBlank';
+import moment from 'moment';
+
+export const BlogList = ({data = [], filter}) => {
+  return data.map(page => page.map(blog =>
+    filter.view.list ?
+      <Col key={`${blog.slug}-list`} md="9">
+        <CardListItem
+          author={blog.author}
+          title={blog.title}
+          subtitle={blog.subtitle}
+          date={moment(blog.date).format('LL')}
+          link={{
+            href: '/blogs/[slug]',
+            as: `/blogs/${blog.slug}`
+          }}
+        />
+      </Col>
+      :
+      <Col key={blog.slug} lg="4" md="6">
+        <CardItem
+          author={blog.author}
+          title={blog.title}
+          subtitle={blog.subtitle}
+          date={moment(blog.date).format('LL')}
+          image={blog.coverImage}
+          link={{
+            href: '/blogs/[slug]',
+            as: `/blogs/${blog.slug}`
+          }}
+        />
+      </Col>
+  ))
+}
+
 export default function Home({blogs, preview}) {
   const [filter, setFilter] = useState({
     view: { list: 0 },
@@ -17,11 +56,8 @@ export default function Home({blogs, preview}) {
   });
 
   const {
-    pages,
-    isLoadingMore,
-    isReachingEnd,
-    loadMore
-  } = useGetBlogsPages({filter, blogs});
+    data, size, setSize, hitEnd
+  } = useGetBlogsPages({filter});
 
   return (
     <PageLayout>
@@ -35,15 +71,16 @@ export default function Home({blogs, preview}) {
       />
       <hr/>
       <Row className="mb-5">
-        {pages}
+        <BlogList data={data || [blogs]} filter={filter} />
       </Row>
       <div style={{textAlign: 'center'}}>
         <Button
-          onClick={loadMore}
-          disabled={isReachingEnd || isLoadingMore}
+          onClick={() => setSize(size + 1)}
+          disabled={hitEnd}
           size="lg"
           variant="outline-secondary">
-          {isLoadingMore ? '...' : isReachingEnd ? 'No more blogs' : 'More Blogs'}
+          {/* {isLoadingMore ? '...' : isReachingEnd ? 'No more blogs' : 'More Blogs'} */}
+          Load More
         </Button>
       </div>
     </PageLayout>
